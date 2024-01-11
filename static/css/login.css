@@ -359,6 +359,7 @@
   @media (max-width: 992px) {
     .wrap-login100 {
       padding: 177px 90px 33px 85px;
+      width: auto !important;
     }
   
     .login100-pic {

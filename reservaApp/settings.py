@@ -39,7 +39,7 @@ PASSWORD_RESET_TEMPLATE_NAME = 'core/mudarSenha.html'
 LOGIN_URL = 'login'
 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['reservajaqueira.onrender.com','127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://reservajaqueira.onrender.com/*', 'http://127.0.0.1/*']
