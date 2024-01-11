@@ -109,13 +109,16 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Define o BASE_DIR
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Obtém o caminho do banco de dados a partir de uma variável de ambiente ou usa um padrão
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/data/db.sqlite3',
+        'NAME': os.getenv('DATABASE_URL', BASE_DIR / 'data/db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
