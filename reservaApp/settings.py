@@ -41,7 +41,9 @@ LOGIN_URL = 'login'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['reservajaqueira.onrender.com','127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://reservajaqueira.onrender.com/*', 'http://127.0.0.1/*']
+
 
 AUTHENTICATION_BACKENDS = [
     'usuarios.backends.EmailAuthenticationBackend',  # Seu backend personalizado
