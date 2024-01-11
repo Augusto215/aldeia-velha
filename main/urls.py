@@ -5,7 +5,9 @@ from main.views import *
 
 urlpatterns = [
         path('', home, name='home'),
-        path('checkout/<int:evento_id>/', processar_reserva, name='checkout'),
+        path('checkout/<int:evento_id>/', iniciar_pagamento, name='checkout'),
+        path('confirmacao/', confirmar_pagamento, name='confirmar_pagamento'),
+
         #path('ajax/get_horarios/', get_horarios, name='ajax_get_horarios'),
         path('localizacao/', localizacao, name='localizacao'),
         path('historia/', historia, name='historia'),
@@ -14,7 +16,9 @@ urlpatterns = [
         path('desfile/', desfile, name='desfile'),
         path('reservas/', minhas_reservas, name='reservas'),
         path('checkout/<int:evento_id>/success/', checkout_success, name='success'),
-        path('cancel/', checkout_cancel, name='cancel'),
+        path('cancel/', checkout_cancel, name='falha_pagamento'),
+        path('pendent/', pendent, name='pagamento_pendente'),
+
         path('galeria/', galeria, name='galeria'),
 
 

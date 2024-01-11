@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import date
 from django.http import JsonResponse
 from django.db.models import F
 from django.contrib import messages
 from django.db.models import Count
-from datetime import datetime
+import datetime
+from django.urls import reverse
+
+import mercadopago
 from django.core.paginator import Paginator
 from .models import *
 from usuarios.models import *
@@ -35,18 +37,11 @@ def get_horarios(request):
     return JsonResponse({'horarios': data})
 
 
-from datetime import datetime
-
-def processar_reserva(request, evento_id):
+def iniciar_pagamento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
-    if request.method == 'POST':
-        
-        if evento.foto and hasattr(evento.foto, 'url'):
-            imagem_url = request.build_absolute_uri(evento.foto.url)
-        else:
-            # URL de uma imagem padrão, caso o evento não tenha uma imagem
-            imagem_url = request.build_absolute_uri('reservaApp\static\img\a72ef393-ee5d-4d76-acf5-42a4a54b4a36.jpg')
+    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
 
+    if request.method == 'POST':
         if hasattr(request.user, 'cliente'):
             cliente = request.user.cliente
         elif isinstance(request.user, Cliente):
@@ -65,45 +60,90 @@ def processar_reserva(request, evento_id):
 
         # Criar a reserva
         dia_evento_str = request.POST.get('dia')
-        dia_evento = datetime.strptime(dia_evento_str, '%Y-%m-%d').date()
-
-        reserva = Reserva.objects.create(
-            evento=evento,
-            cliente=cliente,
-            dia_evento=dia_evento,
-            qtd_adultos=qtd_adultos,
-            qtd_criancas_6_a_10=qtd_criancas_6_a_10,
-            qtd_criancas_0_a_5=qtd_criancas_0_a_5,
-            valor_final=Decimal(valor_total)
-        )
+        dia_evento = datetime.datetime.strptime(dia_evento_str, '%Y-%m-%d').date()
 
 
-        # Criar a sessão de checkout do Stripe
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=[{
-                'price_data': {
-                    'currency': 'brl',
-                    'unit_amount': int(valor_total * 100),  # Stripe usa o menor valor da moeda, como centavos
-                    'product_data': {
-                        'name': evento.nome,
-                    },
-                },
-                'quantity': 1,
-            }],
-            mode='payment',
-            success_url=request.build_absolute_uri('success/'),
-            cancel_url=request.build_absolute_uri('/cancel/'),
-        )
-          # Inclua as informações do evento no contexto
-        
-        return redirect(checkout_session.url, code=303)
+
+
+        request.session['reserva_info'] = {
+            'evento_id': evento_id,
+            'qtd_adultos': qtd_adultos,
+            'qtd_criancas_6_a_10': qtd_criancas_6_a_10,
+            'qtd_criancas_0_a_5': qtd_criancas_0_a_5,
+            'dia_evento_str': dia_evento_str,
+            'valor_total': float(valor_total)
+        }
+
+        preference_data = {
+        "items": [
+            {
+                "title": evento.nome,
+                "quantity": 1,
+                "unit_price": float(valor_total)
+            }
+        ],
+        "back_urls": {
+            "success": request.build_absolute_uri(reverse('confirmar_pagamento')),  # Use o nome da URL mapeada para a função de confirmação
+            "failure": request.build_absolute_uri(reverse('falha_pagamento')),  # Você deve criar uma função de visualização para falhas
+            "pending": request.build_absolute_uri(reverse('pagamento_pendente'))  # E uma para pagamentos pendentes, se desejar
+        },
+        "auto_return": "approved",  # Opcional: retornar automaticamente para o site quando o pagamento estiver aprovado
+        }
+        preference_response = sdk.preference().create(preference_data)
+        preference_id = preference_response['response']['id']
+
+        # Armazenar o ID da preferência na sessão também pode ser uma boa ideia
+        request.session['preference_id'] = preference_id
+
+        # Redirecionar o usuário para a página de pagamento do Mercado Pago
+        return redirect(preference_response['response']['init_point'])
     context = {
             'evento': evento,
             'evento_id': evento_id,
         }
+    print("Evento ID:", evento_id)  # Adicione esta linha para depuração
+
     return render(request, 'core/checkout2.html', context)
 
+def verificar_pagamento(sdk, payment_id):
+    payment_info = sdk.payment().get(payment_id)
+    if payment_info["status"] == 200:
+        payment_status = payment_info["response"]["status"]
+        return payment_status
+    else:
+        return None  # ou você pode retornar um status específico ou lançar uma exceção
+
+
+def confirmar_pagamento(request):
+    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+    payment_id = request.GET.get('payment_id')  # ou a chave correta enviada pelo Mercado Pago
+    payment_status = verificar_pagamento(sdk, payment_id)
+
+    if payment_status == 'approved' and 'reserva_info' in request.session:
+        reserva_info = request.session['reserva_info']
+        evento = get_object_or_404(Evento, id=reserva_info['evento_id'])
+        dia_evento = datetime.datetime.strptime(reserva_info['dia_evento_str'], '%Y-%m-%d').date()
+
+        # Criar a reserva
+        reserva = Reserva.objects.create(
+            evento=evento,
+            cliente=request.user.cliente,
+            dia_evento=dia_evento,
+            qtd_adultos=reserva_info['qtd_adultos'],
+            qtd_criancas_6_a_10=reserva_info['qtd_criancas_6_a_10'],
+            qtd_criancas_0_a_5=reserva_info['qtd_criancas_0_a_5'],
+            valor_final=Decimal(reserva_info['valor_total'])
+        )
+
+        # Limpar a sessão após a reserva ser criada
+        del request.session['reserva_info']
+        
+        messages.success(request, f'Reserva para o evento {evento.nome} realizada com sucesso!')
+        return redirect('home')
+
+    # Se o pagamento não foi aprovado ou não há informações na sessão
+    messages.error(request, 'Reserva cancelada.')
+    return redirect('home')
 
 
 def localizacao(request):
@@ -149,6 +189,9 @@ def checkout_cancel(request):
     messages.error(request, 'Reserva cancelada.')
     return redirect('home')
 
+def pendent(request):
+    messages.error(request, 'Pagamento Pendente.')
+    return redirect('home')
 
 
 

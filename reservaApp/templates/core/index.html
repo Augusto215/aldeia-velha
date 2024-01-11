@@ -115,11 +115,11 @@ function DoIt(target)
             {{evento.descricao}}
           </p>
           {%if user.is_authenticated%}
-          <a class="mt-1" href="{% url 'checkout' evento.id %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
+          <a class="mt-1 d-flex" href="{% url 'checkout' evento.id %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
           </a>
 
           {%else%}
-          <a class="mt-1" href="{% url 'login' %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
+          <a class="mt-1 d-flex" href="{% url 'login' %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
           </a>
           {%endif%}
       </div>
@@ -174,7 +174,11 @@ function DoIt(target)
       <p class="text-center">
         Mergulhe na história e tradições dos Pataxó durante sua visita à Reserva da Jaqueira. Este local não é apenas um destino turístico, mas um centro de aprendizado e vivência cultural. Aqui, você terá a oportunidade de participar de cerimônias ancestrais, aprender sobre os métodos de pesca e agricultura sustentáveis praticados pela comunidade e entender a importância da preservação ambiental na cultura Pataxó. Cada atividade oferece um vislumbre único da harmonia entre o homem e a natureza, destacando a sabedoria indígena na gestão sustentável dos recursos naturais.
       </p>
-  <h4>Reservar</h4>
+      {%if user.is_authenticated%}
+      <a href="{% url 'checkout' evento.id %}"> <h4>Reservar</h4></a>
+      {%else%}
+      <a href="{% url 'login' %}"> <h4>Reservar</h4></a>
+    {%endif%}
   </div>
 </div>
 
@@ -190,8 +194,14 @@ function DoIt(target)
     <div class="d-flex flex-column align-items-center">
       <h4 class=" text-center" style="font-weight: 600 !important; margin-top:10px;">Experiência Imersiva na Natureza</h4>
       <p class="text-center">
-        A Reserva da Jaqueira não é apenas um local de preservação cultural, mas também um santuário ecológico onde a flora e a fauna da Mata Atlântica são cuidadosamente protegidas. Passeie pelas trilhas da reserva e sinta a serenidade do ambiente natural. Aprenda sobre as plantas medicinais utilizadas pela comunidade, observe a diversidade da vida selvagem e absorva a tranquilidade deste espaço sagrado. Esta experiência única na natureza oferece uma perspectiva renovada sobre a importância da conservação ambiental e do respeito às tradições indígenas."      </p>
-  <h4>Reservar</h4>
+   
+    
+      A Reserva da Jaqueira não é apenas um local de preservação cultural, mas também um santuário ecológico onde a flora e a fauna da Mata Atlântica são cuidadosamente protegidas. Passeie pelas trilhas da reserva e sinta a serenidade do ambiente natural. Aprenda sobre as plantas medicinais utilizadas pela comunidade, observe a diversidade da vida selvagem e absorva a tranquilidade deste espaço sagrado. Esta experiência única na natureza oferece uma perspectiva renovada sobre a importância da conservação ambiental e do respeito às tradições indígenas."      </p>
+      {%if user.is_authenticated%}
+  <a href="{% url 'checkout' evento.id %}"> <h4>Reservar</h4></a>
+  {%else%}
+  <a href="{% url 'login' %}"> <h4>Reservar</h4></a>
+{%endif%}
     </div>
   </div>
 
@@ -210,7 +220,7 @@ function DoIt(target)
 </h4>
 
 <a href="{% url 'checkout' evento_id=1 %}">
-<span style="background:#013c08; padding:.7rem 2rem; color:#fff !important; margin-left: 4rem; border-radius:4px;" > Peça já seu Orçamento</span>
+<span class="d-flex" style="background:#013c08; padding:.7rem 2rem; color:#fff !important; margin-left: 4rem; border-radius:4px;" > Peça já seu Orçamento</span>
 </a>
 </div>
     </div>
