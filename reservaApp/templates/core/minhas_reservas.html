@@ -1,0 +1,22 @@
+{%extends 'core/base.html'%}
+{%load static%}
+
+{%block 'conteudo'%}
+
+
+<div class="container mb-4 d-flex flex-column">
+    <h2 class="text-center mb-3">Minhas Reservas:</h2>
+    {%for reserva in reservas%}
+<span style="font-size:1.2rem !important;" class="mb-3 text-center">
+    {{reserva}}
+</span>
+{%empty%}
+<span style="font-size:1.4rem !important;" class="mb-3 text-center">
+    Nenhuma reserva ainda.
+</span>{%endfor%}
+</div>
+<div class="container d-flex justify-content-center" style="margin-bottom:85px;">
+    <img style="width:100%; height:450; object-fit:cover;" src="{%static 'img/285A7665.jpg' %}">
+
+</div>
+{%endblock%}

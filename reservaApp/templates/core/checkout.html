@@ -1,0 +1,14 @@
+<!-- Exemplo de formulário de checkout -->
+<form method="post" action="{% url 'checkout' evento_id %}">
+    {% csrf_token %}
+    <label for="qtd_adultos">Quantidade de Adultos:</label>
+    <input type="number" id="qtd_adultos" name="qtd_adultos" min="1" required>
+
+    <label for="qtd_criancas_6_a_12">Quantidade de Crianças (6-12 anos):</label>
+    <input type="number" id="qtd_criancas_6_a_12" name="qtd_criancas_6_a_12" min="0" required>
+
+    <label for="qtd_criancas_0_a_5">Quantidade de Crianças (0-5 anos):</label>
+    <input type="number" id="qtd_criancas_0_a_5" name="qtd_criancas_0_a_5" min="0" required>
+
+    <button type="submit">Reservar</button>
+</form>

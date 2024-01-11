@@ -1,0 +1,107 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{%static 'img/2023_Aragwaksa' %}">
+
+    <title>Acessar | JAQUERA</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/static/vendor/fontawesome-free/css/all.min.css">
+
+    <!-- Bootstrap and adminLTE -->
+    <link rel="stylesheet" href="/static/vendor/adminlte/css/adminlte.min.css">
+
+    <!-- Bootswatch theme -->
+    
+
+    
+
+    <!-- Custom fixes for django -->
+    <link rel="stylesheet" href="/static/jazzmin/css/main.css">
+
+    
+
+    <!-- favicons -->
+    <link rel="shortcut icon" href="/static/True" type="image/png">
+    <link rel="icon" href="/static/True" sizes="32x32" type="image/png">
+
+    
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    
+
+     
+     
+</head>
+<body class="hold-transition jazzmin-login-page">
+
+<div class="login-box">
+    <div class="login-logo">
+        <h1>
+            <picture>
+                <source
+                    srcset="/static/img/c843eefa-f7d4-4534-852f-971f82ebfa4c-removebg-preview.png"
+                    media="(prefers-color-scheme: dark)">
+                 <img style="max-width:15rem; border-radius:50%;" src="/static/img/IMG_9283%20(1).JPG" alt="JAQUERA">
+            </picture>
+        </h1>
+    </div>
+
+    <div class="card">
+        <div class="card-body" style="text-align:center">
+            
+    <p class="login-box-msg">RESERVA JAQUERA</p>
+    <form action="/admin/login/?next=/admin/" method="post" style="margin-bottom:1.5rem">
+        {%csrf_token%}
+        
+        
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Email" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Senha" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-12">
+                <button style="background:#006135 !important; border:none;" type="submit" class="btn btn-primary btn-block">
+                    Acessar
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <a style="color:#006135 !important; font-size:1rem !important;" href="{%url 'home'%}" style="margin:1rem auto">Voltar </a>
+
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/vendor/adminlte/js/adminlte.min.js"></script>
+
+
+    <script src="/static/True"></script>
+
+
+</body>
+</html>

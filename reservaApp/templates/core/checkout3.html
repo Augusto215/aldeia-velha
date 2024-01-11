@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% load static %}
+<html lang="en">
+
+{% block 'conteudo' %}
+<div id="booking" style="background: url('{%static 'img/naom_555c9cda7837f.jpg'%}'); object-fit:cover;
+background-size:cover; background-position:center;" class="section">
+    <div class="section-center">
+        <div class="container">
+            <div class="row">
+                <div class="booking-form">
+                    <div class="booking-bg" style="background: url('{%static 'img/dji_fly_20230730_113248_636_1692665530971_photo (1).JPG'%}'); object-fit:cover;
+					background-size:cover; background-position:center;"></div>
+                    <form method="post" action="{% url 'checkout' evento_id %}">
+                        {% csrf_token %}
+                        <div class="form-header">
+                            <h2>Faça sua Reserva</h2>
+                        </div>
+                        <div class="row">
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Adultos</span>
+                                    <input class="form-control" type="number" name="qtd_adultos" min="1" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Crianças (6-10 anos)</span>
+                                    <input class="form-control" type="number" name="qtd_criancas_6_a_12" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Crianças (0-5 anos)</span>
+                                    <input class="form-control" type="number" name="qtd_criancas_0_a_5" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-btn">
+                            <button class="submit-btn">Reservar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

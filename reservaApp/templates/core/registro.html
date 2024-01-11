@@ -1,0 +1,270 @@
+{%load static%}
+
+<html lang="en">
+<head>
+	<title>Login V1</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%static 'css/login.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+        <div class="container-login100" style="flex-direction:column !important; gap:2rem; background: linear-gradient(to right, rgba(0, 128, 0, 0.456), rgba(0, 128, 0, 0.477)), url('/static/img/vlad-hilitanu-pt7QzB4ZLWw-unsplash.jpg'); background-size: cover;">
+            <div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img style="border-radius:50%;" src="{%static 'img/c843eefa-f7d4-4534-852f-971f82ebfa4c-removebg-preview.png' %}" alt="IMG">
+				</div>
+                
+                <div class="login100-form validate-form">
+                    <span class="login100-form-title">
+						Registre-se Agora!
+					</span>
+                
+                    <form  method="post" enctype="multipart/form-data" action="{% url 'registerCliente'  %}">
+                        {%csrf_token%}
+                <!-- Passo 1: Informações Básicas -->
+                <div id="step1" class="step">
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="nome" placeholder="Nome Completo">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="text" name="username" placeholder="CPF">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+                    <!-- Conteúdo do Passo 1 (Ex: Nome, Email) -->
+                    <!-- Botão para ir para o Passo 2 -->
+                    <button type="button" onclick="showStep(2)">Próximo</button>
+
+                </div>
+    
+            <!-- Passo 2: Detalhes Adicionais -->
+<div id="step2" class="step" style="display:none;">
+    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+        <input class="input100" type="email" name="email" placeholder="Email">
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Campo de upload de imagem com ícone antes do texto 
+    <div class="wrap-input100 validate-input" data-validate="Image is required">
+        <input class="input100" type="file" id="imageUpload" name="foto" accept="image/*" style="display: none;" onchange="uploadFileName()">
+        <span class="symbol-input100" onclick="document.getElementById('imageUpload').click()">
+            <i class="fa fa-image" aria-hidden="true"></i>
+        </span>
+        <label for="imageUpload" class="input100">
+            <span id="file-upload-filename" class="file-upload-filename">Foto de Perfil</span>
+        </label>
+    </div>
+    -->
+    <div class="wrap-input100" style="display:none !important;">
+        <div class="input100" style="padding-left:30px !important;">
+        <i style="margin-right:20px;" class="fa fa-image" aria-hidden="true"></i>
+
+        <input  type="file" name="foto" accept="image/*">
+        </div>  
+    </div>
+    <div class="d-flex align-items-center" style="gap:1rem;">
+        <button type="button" onclick="showStep(1)">Anterior</button>
+        <button type="button" onclick="showStep(3)">Próximo</button>
+    </div>
+    <!-- Conteúdo do Passo 2 (Ex: Endereço, Telefone) -->
+    <!-- Botões para voltar para o Passo 1 ou ir para o Passo 3 -->
+</div>
+
+                 <!-- Passo 3: Informações Básicas -->
+                 <div id="step3" class="step" style="display:none;">
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="telefone" placeholder="Telefone">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="text" name="cep" placeholder="CEP">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+                    <!-- Conteúdo do Passo 1 (Ex: Nome, Email) -->
+                    <!-- Botão para ir para o Passo 2 -->
+                    <div class="d-flex align-items-center" style="gap:1rem;">
+                        <button type="button" onclick="showStep(2)">Anterior</button>
+                        <button type="button" onclick="showStep(4)">Próximo</button>
+                        </div>
+                </div>
+    
+                <!-- Passo 4: Confirmação -->
+                <div id="step4" class="step" style="display:none;">
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="password" name="password1" placeholder="Senha">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="password2" placeholder="Confirmar Senha">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+                    <div class="d-flex align-items-center" style="gap:1rem;">
+                    <button type="button" onclick="showStep(2)">Anterior</button>
+                    <button type="submit">Enviar</button>
+                    </div>
+                
+                </div>
+            </form>
+
+         
+
+                <div class="text-center p-t-136">
+                    <a style="font-size:.9rem !important;" class="txt2" href="{%url 'login' %}">
+                        Já tenho uma Conta!
+                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </a>
+                </div>
+                    <!-- Conteúdo do Passo 3 (Ex: Termos e Condições) -->
+                    <!-- Botões para voltar para o Passo 2 ou enviar o formulário -->
+                </div>
+
+                
+    
+            </div>
+            <a style="color:#fff !important; font-size:1.2rem !important" href="{%url 'home' %}">Voltar</a>
+        </div>
+    </div>
+    <script>
+        function showStep(stepNumber) {
+            // Esconder todos os passos
+            document.querySelectorAll('.step').forEach(step => {
+                step.style.display = 'none';
+            });
+    
+            // Mostrar o passo atual
+            document.querySelector('#step' + stepNumber).style.display = 'block';
+        }
+    
+        // Exemplo de como chamar a função:
+        // showStep(1); // Para começar mostrando o primeiro passo
+    </script>
+
+	
+
+
+	
+<!--===============================================================================================-->	
+	<script src="{%static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{%static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{%static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{%static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{%static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="{%static 'js/login.js' %}"></script>
+      <!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<!-- ... rest of modal content ... -->
+		<div class="modal-body">
+		  <div class="d-flex flex-column align-items-center" style="gap:1rem;">
+			<img style="max-height:5rem;" src="{%static 'img/check (1).png'%}">
+		  {% if messages %}
+			<div class="messages">
+			  {% for message in messages %}
+				{% if message.tags == 'success' %}
+				  <span style="font-size:1.2rem !important;">{{ message }}</span>
+				{% endif %}
+			  {% endfor %}
+			</div>
+		  {% endif %}
+		</div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <!-- Error Modal -->
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<!-- ... rest of modal content ... -->
+		<div class="modal-body">
+  
+			<div class="d-flex flex-column align-items-center" style="gap:1rem;">
+			  <img style="max-height:5rem;" src="{%static 'img/close.png'%}">
+			{% if messages %}
+			<div class="messages">
+			  {% for message in messages %}
+				{% if message.tags == 'error' %}
+			<span style="font-size:1.2rem !important;">{{ message }}</span>
+				{% endif %}
+			  {% endfor %}
+			</div>
+		  {% endif %}
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', (event) => {
+	  {% if messages %}
+		{% for message in messages %}
+		  {% if message.tags == 'success' %}
+			var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+			successModal.show();
+		  {% elif message.tags == 'error' %}
+			var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+			errorModal.show();
+		  {% endif %}
+		{% endfor %}
+	  {% endif %}
+	});
+  </script>
+	
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

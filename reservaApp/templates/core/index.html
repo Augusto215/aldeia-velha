@@ -1,0 +1,280 @@
+
+
+
+  {%extends 'core/base.html'%}
+  {%load static%}
+ {%block 'conteudo'%} 
+
+  <div id="slide-window">
+  
+    <ol id="slides" start="1">
+    
+      <li class="slide color-0 alive" style="background-image:url('{%static 'img/IMG_9283 (1).JPG' %}');"></li>
+      
+      <li class="slide color-1" style="background-image:url('{%static 'img/IMG_0351 (1).JPG' %}');"></li>
+      
+     
+    
+    </ol>
+ 
+    <span class="nav fa fa-chevron-left fa-3x" style="color:#fff !important" id="left"><i style="font-size:5rem !important;" class="bi bi-arrow-left-short"></i>
+    </span>
+    <span class="nav fa fa-chevron-right fa-3x" style="color:#fff !important" id="right"><i style="font-size:5rem !important;" class="bi bi-arrow-right-short"></i>
+    </span>
+    
+    <div id="credit">Photography by Trey Ratcliff<br>Slide No.<span id="count">1</span><br><span id="zoom">zoom</span></div>
+    
+</div>
+
+
+
+<div class="d-flex p-5 justify-content-center align-items-center flex-mobile" style="background: linear-gradient(to right, rgba(0, 128, 0, 0.456), rgba(0, 128, 0, 0.477)), url('{%static 'img/vlad-hilitanu-pt7QzB4ZLWw-unsplash.jpg' %}'); background-size: cover; gap: 2rem; margin-bottom:26px !important;">
+
+    <div class="flex-mobile d-flex flex-column align-items-center" style="gap:1rem;"><img style="height: 4rem;" src="{%static 'img/teamwork.png' %}"> <span class="text-center fw-bold" style="font-size:1.2rem !important; color:#fff !important;">Cultura</span></div>
+
+    <div class="flex-mobile d-flex flex-column align-items-center" style="gap:1rem;"><img style="height: 4rem;" src="{%static 'img/planet-earth.png'%}"> <span class="text-center fw-bold" style="font-size:1.2rem !important; color:#fff !important;">Atividades Econômicas<br> Sustentáveis</span></div>
+
+    <div class="flex-mobile d-flex flex-column align-items-center" style="gap:1rem;"><img style="height: 4rem;" src="{%static 'img/territories.png' %}"> <span class="text-center fw-bold" style="font-size:1.2rem !important; color:#fff !important;">Gestão Territorial<br> e Ambiental</span></div>
+
+    <div class="flex-mobile d-flex flex-column align-items-center" style="gap:1rem;"><img style="height: 4rem;" src="{%static 'img\power.png' %}"> <span class="text-center fw-bold" style="font-size:1.2rem !important; color:#fff !important;">Fortalecimento<br> Cultural</span></div>
+
+
+    <div class="flex-mobile d-flex flex-column align-items-center" style="gap:1rem;"><img style="height: 4rem;" src="{%static 'img\graduation-cap.png'  %}"> <span class="text-center fw-bold" style="font-size:1.2rem !important; color:#fff !important;">Educação<br> e Capacitação</span></div>
+
+
+</div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$.global = new Object();
+
+$.global.item = 1;
+$.global.total = 0;
+
+$(document).ready(function() 
+	{
+	
+	var WindowWidth = $(window).width();
+	var SlideCount = $('#slides li').length;
+	var SlidesWidth = SlideCount * WindowWidth;
+	
+   $.global.item = 0;
+    $.global.total = SlideCount; 
+    
+	$('.slide').css('width',WindowWidth+'px');
+	$('#slides').css('width',SlidesWidth+'px');
+
+   $("#slides li:nth-child(1)").addClass('alive');
+    
+  $('#left').click(function() { Slide('back'); }); 
+  $('#right').click(function() { Slide('forward'); }); 
+        
+  });
+
+function Slide(direction)
+	{
+   
+    if (direction == 'back') { var $target = $.global.item - 1; }
+    if (direction == 'forward') { var $target = $.global.item + 1; }  
+    
+    if ($target == -1) { DoIt($.global.total-1); } 
+    else if ($target == $.global.total) { DoIt(0); }  
+    else { DoIt($target); }
+    
+    
+	}
+
+function DoIt(target)
+  {
+   
+    var $windowwidth = $(window).width();
+	var $margin = $windowwidth * target; 
+    var $actualtarget = target+1;
+    
+    $("#slides li:nth-child("+$actualtarget+")").addClass('alive');
+    
+    $('#slides').css('transform','translate3d(-'+$margin+'px,0px,0px)');	
+    
+    $.global.item = target; 
+    
+  $('#count').html($.global.item+1);
+    
+  }
+
+    </script>
+
+<div class="container mt-3" style=" padding-bottom: 26px;">
+
+    <div class="flex-mobile d-flex justify-content-center align-items-center" style="gap:2rem">
+        {%for evento in eventos%}
+      <div class="d-flex flex-column passeio">
+        <h2 class="text-center mb-2">{{evento.nome}}</h2>
+        <img style=" max-width: 100%; height: 22rem; object-fit: cover !important; border-radius:12px !important;" src="{{evento.foto.url}}">
+        <div class="d-flex flex-column align-items-center">
+          <p style="font-size:1.2rem; margin-top:1rem;" class=" text-center">
+            {{evento.descricao}}
+          </p>
+          {%if user.is_authenticated%}
+          <a class="mt-1" href="{% url 'checkout' evento.id %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
+          </a>
+
+          {%else%}
+          <a class="mt-1" href="{% url 'login' %}">          <span class="text-center" style="margin-top:10px; background:#006135; padding:.7rem 5rem; font-size:1.3rem !important; max-width:100%; color:#fff !important; border-radius:4px;">Reservar Agora</span>
+          </a>
+          {%endif%}
+      </div>
+    </div>
+
+
+    {%endfor%}
+
+</div>
+</div>
+
+
+
+
+<div class="fluid-container" style="margin-top:20px; margin-bottom:26px; background: url('{%static '/img/IMG_0502++++.jpg' %}'); width:100%; height: 20rem; max-width: 100%; background-size:cover; background-repeat: no-repeat; padding-top:20px; background-position-y: 0; background-position-x:50%;">
+
+
+</div>
+
+
+
+<div class="fluid-container p-4" style="margin-top:20px; margin-bottom:26px; background: linear-gradient( to right, #013c08, rgba(4, 100, 4, 0.719)), url('{%static 'img/naom_555c9cda7837f.jpg' %}'); width:100%; max-width: 100%; background-size:cover; background-repeat: no-repeat; padding-top:20px; background-position-y: 0; background-position-x:50%;">
+<div class="container">
+  <h3 class="text-center" style="color:#fff !important"> Sustentabilidade e Preservação Cultural na Visão dos Pataxó</h3>
+
+
+  <p class="text-center" style="color:#fff !important; font-size:1.2rem !important;">O importante trabalho que vem sendo desenvolvido pelos Pataxó da Reserva Ambiental da Jaqueira, desde de sua criação em 1998, transformou esse lugar num modelo de desenvolvimento sustentável onde são abordados as práticas da etnovivencia, educação ambiental e cultural de um modo inclusivo que pode ser deixado para as próximas gerações.
+
+    A Reserva da Jaqueira se compromete conservar sua identidade cultural e preservar 827 hectares da Mata Atlântica que representa o Aragwá Mirawê...um lugar sagrado.
+    
+    Todo mérito do trabalho da Reserva da Jaqueira é atribuído a união do Povo Pataxó que permanecem unidos por todos esses anos de lutas e conquistas. Mesmo passando por muitas dificuldades nunca desistiram de seus objetivos.</p>
+</div>
+
+</div>
+
+<div class="container" style="padding-top:20px; padding-bottom:26px;">
+
+<h3 style="font-weight: 700;">Conheça a nossa cultura
+</h3>
+
+
+<div class="container flex-mobile d-flex align-items-center" style="gap:1rem;">
+
+</div>
+<div class="container" style="padding-top:20px; padding-bottom: 26px;">
+
+<div class="flex-mobile d-flex justify-content-center align-items-center" style="gap:2rem">
+  <div class="d-flex flex-column passeio2 justify-content-center align-items-center">
+    <img style="width: 20rem !important; max-width: 100%; height: 15rem; object-fit: cover !important; border-radius:12px !important;" src="{%static 'img\IMG_9160.JPG' %}">
+    <div class="d-flex flex-column align-items-center">
+      <h4 class=" text-center" style="font-weight: 600 !important; margin-top:10px;">Descubra a Riqueza Cultural dos Pataxó na Reserva da Jaqueira</h4>
+      <p class="text-center">
+        Mergulhe na história e tradições dos Pataxó durante sua visita à Reserva da Jaqueira. Este local não é apenas um destino turístico, mas um centro de aprendizado e vivência cultural. Aqui, você terá a oportunidade de participar de cerimônias ancestrais, aprender sobre os métodos de pesca e agricultura sustentáveis praticados pela comunidade e entender a importância da preservação ambiental na cultura Pataxó. Cada atividade oferece um vislumbre único da harmonia entre o homem e a natureza, destacando a sabedoria indígena na gestão sustentável dos recursos naturais.
+      </p>
+  <h4>Reservar</h4>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+  <div class="d-flex flex-column passeio2 justify-content-center align-items-center">
+    <img style="width: 20rem !important; max-width: 100%; height:15rem; object-fit: cover !important; border-radius:12px !important;" src="{%static 'img\dji_fly_20230731_113748_644_1692665170995_photo.JPG' %}">
+    <div class="d-flex flex-column align-items-center">
+      <h4 class=" text-center" style="font-weight: 600 !important; margin-top:10px;">Experiência Imersiva na Natureza</h4>
+      <p class="text-center">
+        A Reserva da Jaqueira não é apenas um local de preservação cultural, mas também um santuário ecológico onde a flora e a fauna da Mata Atlântica são cuidadosamente protegidas. Passeie pelas trilhas da reserva e sinta a serenidade do ambiente natural. Aprenda sobre as plantas medicinais utilizadas pela comunidade, observe a diversidade da vida selvagem e absorva a tranquilidade deste espaço sagrado. Esta experiência única na natureza oferece uma perspectiva renovada sobre a importância da conservação ambiental e do respeito às tradições indígenas."      </p>
+  <h4>Reservar</h4>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+    <div class="fluid-container" style="background: url('{%static 'img/cta-bg.webp' %}'); width:100%; height: 13rem; max-width: 100%; background-size:cover; background-repeat: no-repeat; padding-top:20px;">
+
+      <div style="height: 80%; width: 100%;" class="container d-flex align-items-center justify-content-center" style="gap:4rem;">
+<h4 style="color:#fff !important">Garanta sua vaga e participe desta experiência!
+</h4>
+
+<a href="{% url 'checkout' evento_id=1 %}">
+<span style="background:#013c08; padding:.7rem 2rem; color:#fff !important; margin-left: 4rem; border-radius:4px;" > Peça já seu Orçamento</span>
+</a>
+</div>
+    </div>
+	  <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- ... rest of modal content ... -->
+        <div class="modal-body">
+          <div class="d-flex flex-column align-items-center" style="gap:1rem;">
+          <img style="max-height:5rem;" src="{%static 'img/check (1).png'%}">
+          {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+            {% if message.tags == 'success' %}
+              <span style="text-align:center; font-size:1.2rem !important;">{{ message }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        </div>
+        </div>
+      </div>
+      </div>
+      
+      <!-- Error Modal -->
+      <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- ... rest of modal content ... -->
+        <div class="modal-body">
+      
+          <div class="d-flex flex-column align-items-center" style="gap:1rem;">
+            <img style="max-height:5rem;" src="{%static 'img/close.png'%}">
+          {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+          <span style="text-align:center; font-size:1.2rem !important;">{{ message }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+      
+      <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', (event) => {
+        {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'success' %}
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+          successModal.show();
+          {% elif message.tags == 'error' %}
+          var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+          errorModal.show();
+          {% endif %}
+        {% endfor %}
+        {% endif %}
+      });
+      </script>
+
+   {%endblock%}

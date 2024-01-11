@@ -1,0 +1,34 @@
+{%extends 'core/base.html'%}
+{%load static%}
+
+{%block 'conteudo'%}
+<h2 class="text-center">Galeria de Fotos:</h2>
+<div class="foto-container container" >
+    {% for foto in fotos %}
+        <div class="foto">
+            <img style="height:20rem; object-fit:cover;" src="{{ foto.imagem.url }}" alt="{{ foto.nome }}">  <!-- Usando foto.imagem e foto.nome -->
+            <!-- Outros detalhes da foto, se necessário -->
+        </div>
+    {% empty %}
+        <p>Nenhuma foto disponível.</p>
+    {% endfor %}
+</div>
+
+<!-- Controles de Paginação -->
+<div class="pagination container d-flex justify-content-center mt-3" style="margin-bottom:70px;">
+    <span class="step-links">
+        {% if fotos.has_previous %}
+            <a style="font-size:1.2rem !important;" href="?page={{ fotos.previous_page_number }}"><span>anterior</span></a>
+        {% endif %}
+    
+        <span style="font-size:1.2rem !important;" class="current">
+            Página {{ fotos.number }} de {{ fotos.paginator.num_pages }}.
+        </span>
+    
+        {% if fotos.has_next %}
+            <a style="font-size:1.2rem !important;" href="?page={{ fotos.next_page_number }}"><span>próxima</span></a>
+        {% endif %}
+    </span>
+</div>
+
+{%endblock%}
