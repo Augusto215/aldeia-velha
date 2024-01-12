@@ -108,17 +108,17 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 import os
 from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/data/db.sqlite3',  # Caminho para o banco de dados no disco persistente
+        'NAME': os.path.join(BASE_DIR, '/data/db.sqlite3'),  # Caminho para o banco de dados no disco persistente
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
