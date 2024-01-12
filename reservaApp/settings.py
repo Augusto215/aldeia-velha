@@ -53,7 +53,6 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
