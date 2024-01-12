@@ -109,15 +109,13 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 import os
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/opt/render/project/src/reservaApp/data/db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ['DATABASE_URL'],
+        engine='django_cockroachdb'
+    )
 }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
