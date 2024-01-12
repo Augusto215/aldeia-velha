@@ -6,7 +6,7 @@
 <div class="foto-container container" >
     {% for foto in fotos %}
         <div class="foto">
-            <img style="height:20rem; object-fit:cover;" src="{{ foto.imagem.url }}" alt="{{ foto.nome }}">  <!-- Usando foto.imagem e foto.nome -->
+            <img loading="lazy" style="height:20rem; object-fit:cover;" src="{{ foto.imagem.url }}" alt="{{ foto.nome }}">  <!-- Usando foto.imagem e foto.nome -->
             <!-- Outros detalhes da foto, se necessário -->
         </div>
     {% empty %}

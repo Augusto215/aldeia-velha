@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block 'conteudo' %}
-<div id="booking" class="section">
+<div loading="lazy" id="booking" class="section">
     <div class="section-center">
         <div class="container">
             <div class="container">
@@ -17,7 +17,7 @@
                   </div>
                 <div class="booking-form">
                     
-                    <div class="booking-bg" style="background:  url('{%static 'img/dji_fly_20230730_113248_636_1692665530971_photo (1).JPG'%}'); object-fit:cover;
+                    <div loading="lazy" class="booking-bg" style="background:  url('{%static 'img/dji_fly_20230730_113248_636_1692665530971_photo (1).JPG'%}'); object-fit:cover;
 					background-size:cover; background-position:center;"></div>
                     
                     <form method="post" action="{% url 'checkout' evento_id %}">
