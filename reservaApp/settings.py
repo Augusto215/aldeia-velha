@@ -116,7 +116,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '/data/db.sqlite3'),  # Caminho para o banco de dados no disco persistente
+        'NAME': '/opt/render/project/src/reservaApp/data/db.sqlite3',
     }
 }
 # Password validation
