@@ -112,14 +112,10 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 import os
 from pathlib import Path
 
-# Define o BASE_DIR
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Configuração do banco de dados que usa a variável de ambiente 'DATABASE_URL'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'data/db.sqlite3',
+        'NAME': '/data/db.sqlite3',  # Caminho para o banco de dados no disco persistente
     }
 }
 
