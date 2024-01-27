@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
-
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,7 +39,7 @@ PASSWORD_RESET_TEMPLATE_NAME = 'core/mudarSenha.html'
 LOGIN_URL = 'login'
 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['reservajaqueira.onrender.com','127.0.0.1', 'www.reservapataxodajaqueira.com.br', 'reservapataxodajaqueira.com.br']
 CSRF_TRUSTED_ORIGINS = ['https://reservajaqueira.onrender.com/*', 'http://127.0.0.1/*', 'https://www.reservapataxodajaqueira.com.br/*', 'https://reservapataxodajaqueira.com.br/*' ]
@@ -107,15 +107,15 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-import os
-import dj_database_url
+#import os
+#import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ['DATABASE_URL'],
-        engine='django_cockroachdb'
-    )
-}
+#DATABASES = {
+#    'default': dj_database_url.config(
+#        default=os.environ['DATABASE_URL'],
+#        engine='django_cockroachdb'
+#    )
+#}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -125,6 +125,10 @@ DATABASES = {
 #        'NAME': BASE_DIR / 'data/db.sqlite3',
 #    }
 #}
+
+DATABASES  = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
