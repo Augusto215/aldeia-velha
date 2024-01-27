@@ -39,7 +39,7 @@ PASSWORD_RESET_TEMPLATE_NAME = 'core/mudarSenha.html'
 LOGIN_URL = 'login'
 
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['reservajaqueira.onrender.com','127.0.0.1', 'www.reservapataxodajaqueira.com.br', 'reservapataxodajaqueira.com.br']
 CSRF_TRUSTED_ORIGINS = ['https://reservajaqueira.onrender.com/*', 'http://127.0.0.1/*', 'https://www.reservapataxodajaqueira.com.br/*', 'https://reservapataxodajaqueira.com.br/*' ]
@@ -118,6 +118,13 @@ DATABASES = {
 }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'data/db.sqlite3',
+#    }
+#}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

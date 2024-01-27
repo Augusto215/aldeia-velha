@@ -207,3 +207,53 @@ def galeria(request):
         'fotos': fotos
     }
     return render(request, 'core/galeria.html', context)
+
+
+def iniciar_doacao(request):
+    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+
+    if request.method == 'POST':
+        valor_doacao_str = request.POST.get('valor_doacao')
+        valor_doacao_str = valor_doacao_str.replace('R$', '').replace('.', '').replace(',', '.')
+
+        try:
+            valor_doacao = float(valor_doacao_str)
+        except ValueError:
+            # Tratar o caso em que a conversão não é possível
+            # Por exemplo, redirecionar para a página de erro ou mostrar uma mensagem de erro
+            # Aqui você pode retornar uma mensagem de erro
+            return render(request, 'core/doar.html', {'error': 'Valor inválido. Por favor, insira um número válido.'})
+
+        preference_data = {
+            "items": [
+                {
+                    "title": "Doação",
+                    "quantity": 1,
+                    "unit_price": valor_doacao
+                }
+            ],
+            "back_urls": {
+                "success": request.build_absolute_uri(reverse('confirmar_pagamento')),  # URL de retorno após o pagamento
+                "failure": request.build_absolute_uri(reverse('falha_pagamento')),  # URL para caso de falha
+                "pending": request.build_absolute_uri(reverse('pagamento_pendente'))  # URL para pagamento pendente
+            },
+            "auto_return": "approved",
+        }
+
+        preference_response = sdk.preference().create(preference_data)
+        preference_id = preference_response['response']['id']
+
+        return redirect(preference_response['response']['init_point'])
+
+    return render(request, 'core/doar.html')
+
+def confirmar_doacao(request):
+    # Logica para confirmar o pagamento
+    messages.success(request, 'Pagamento efetuado com sucesso!')
+    return redirect('home')
+
+
+def falha_doacao(request):
+    # Logica para confirmar o pagamento
+    messages.error(request, 'Erro na confirmação do pagamento.')
+    return redirect('home')

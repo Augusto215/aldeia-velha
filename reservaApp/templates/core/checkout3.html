@@ -1,16 +1,25 @@
 {% extends 'core/base.html' %}
 {% load static %}
-<html lang="en">
 
 {% block 'conteudo' %}
-<div id="booking" style="background: url('{%static 'img/naom_555c9cda7837f.jpg'%}'); object-fit:cover;
-background-size:cover; background-position:center;" class="section">
+<div loading="lazy" id="booking" class="section">
     <div class="section-center">
         <div class="container">
-            <div class="row">
+            <div class="container">
+
+                <div style=" display:flex; justify-content:center; flex-direction:column; text-align:center; align-items:center;position:relative; padding:2rem;z-index:10;">
+                    <h2 style="font-weight:600;">Informações Importantes:</h2>
+
+                    <span style="font-size:1.3rem;">  
+                        
+                        Horário disponível para o passeio: Segunda a Sexta, das 8h30 às 14h30; Sábado, das 8h30 às 12h. Domingo é fechado. O passeio tem duração de 2 horas. O valor do passeio é de R$ 120,00 por pessoa. Crianças de 0 a 5 anos não pagam. Crianças de 6 a 10 anos pagam metade do preço (R$ 60,00).
+                    </span>
+                  </div>
                 <div class="booking-form">
-                    <div class="booking-bg" style="background: url('{%static 'img/dji_fly_20230730_113248_636_1692665530971_photo (1).JPG'%}'); object-fit:cover;
+                    
+                    <div loading="lazy" class="booking-bg" style="background:  url('{%static 'img/dji_fly_20230730_113248_636_1692665530971_photo (1).JPG'%}'); object-fit:cover;
 					background-size:cover; background-position:center;"></div>
+                    
                     <form method="post" action="{% url 'checkout' evento_id %}">
                         {% csrf_token %}
                         <div class="form-header">
@@ -22,13 +31,13 @@ background-size:cover; background-position:center;" class="section">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="form-label">Adultos</span>
-                                    <input class="form-control" type="number" name="qtd_adultos" min="1" required>
+                                    <input class="form-control" type="number" name="qtd_adultos" id="qtd_adultos" min="1" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="form-label">Crianças (6-10 anos)</span>
-                                    <input class="form-control" type="number" name="qtd_criancas_6_a_12" min="0" required>
+                                    <input class="form-control" type="number" name="qtd_criancas_6_a_10" id="qtd_criancas_6_a_10" min="0" required>
                                 </div>
                             </div>
                         </div>
@@ -36,14 +45,175 @@ background-size:cover; background-position:center;" class="section">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="form-label">Crianças (0-5 anos)</span>
-                                    <input class="form-control" type="number" name="qtd_criancas_0_a_5" min="0" required>
+                                    <input class="form-control" type="number" name="qtd_criancas_0_a_5" id="qtd_criancas_0_a_5" min="0" required>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <span class="form-label">Data do Evento</span>
+                                <input type="text" id="dataEvento" name="dia" class="form-control">
+                            </div>
+
+<div>
+    <span class="form-label">Valor Total:</span>
+    <span id="precoTotal">R$ 0,00</span>
+
+</div>
                         <div class="form-btn">
+                            
                             <button class="submit-btn">Reservar</button>
+                           
                         </div>
                     </form>
+
+
+              
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            flatpickr("#dataEvento", {
+                                enableTime: false,
+                                dateFormat: "Y-m-d",
+                                minDate: new Date(2024, 0, 1), // 1 de janeiro de 2024
+                                maxDate: new Date(2024, 11, 31), // 31 de dezembro de 2024
+                                locale: {
+                                    firstDayOfWeek: 1, // Semana começa na segunda
+                                    weekdays: {
+                                        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                                        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],                         
+                                    }, 
+                                    months: {
+                                        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                                        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+                                    },
+                                    ordinal: function (nth) {
+                                        if (nth > 1) return "º";
+                                        return "";
+                                    },
+                                    rangeSeparator: ' até ',
+                                    weekAbbreviation: 'Sem.',
+                                    scrollTitle: 'Role para aumentar',
+                                    toggleTitle: 'Clique para alternar',
+                                    amPM: ['AM', 'PM'],
+                                    yearAriaLabel: 'Ano',
+                                    monthAriaLabel: 'Mês',
+                                    hourAriaLabel: 'Hora',
+                                    minuteAriaLabel: 'Minuto',
+                                    time_24hr: true
+                                },
+                                "disable": [
+                                    function(date) {
+                                        // Desabilitar todos os domingos
+                                        return (date.getDay() === 0);
+                                    }
+                                ]
+                            });
+                        });
+                        </script>
+
+<script>
+    function calcularPreco() {
+        var precoPorAdulto = '{{ evento.valor_por_adulto|floatformat:"2" }}'.replace(',', '.');
+        var precoPorCrianca6a10 = '{{ evento.valor_por_crianca_6_a_10|floatformat:"2" }}'.replace(',', '.');
+        var precoPorCrianca0a5 = '{{ evento.valor_por_crianca_0_a_5|floatformat:"2" }}'.replace(',', '.');
+
+        precoPorAdulto = parseFloat(precoPorAdulto);
+        precoPorCrianca6a10 = parseFloat(precoPorCrianca6a10);
+        precoPorCrianca0a5 = parseFloat(precoPorCrianca0a5);
+
+        var qtdAdultos = parseInt(document.getElementById('qtd_adultos').value) || 0;
+        var qtdCriancas6a10 = parseInt(document.getElementById('qtd_criancas_6_a_10').value) || 0;
+        var qtdCriancas0a5 = parseInt(document.getElementById('qtd_criancas_0_a_5').value) || 0;
+
+        var total = (qtdAdultos * precoPorAdulto) + (qtdCriancas6a10 * precoPorCrianca6a10) + (qtdCriancas0a5 * precoPorCrianca0a5);
+        
+        document.getElementById('precoTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+    }
+
+    document.getElementById('qtd_adultos').addEventListener('change', calcularPreco);
+    document.getElementById('qtd_criancas_6_a_10').addEventListener('change', calcularPreco);
+    document.getElementById('qtd_criancas_0_a_5').addEventListener('change', calcularPreco);
+
+    calcularPreco(); // Calcular o preço inicial
+</script>
+
+
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+      <!-- Success Modal -->
+      <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- ... rest of modal content ... -->
+            <div class="modal-body">
+              <div class="d-flex flex-column align-items-center" style="gap:1rem;">
+                <img style="max-height:5rem;" src="{%static 'img/check (1).png'%}">
+              {% if messages %}
+                <div class="messages">
+                  {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                      <span style="font-size:1.2rem !important;">{{ message }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Error Modal -->
+      <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- ... rest of modal content ... -->
+            <div class="modal-body">
+      
+                <div class="d-flex flex-column align-items-center" style="gap:1rem;">
+                  <img style="max-height:5rem;" src="{%static 'img/close.png'%}">
+                {% if messages %}
+                <div class="messages">
+                  {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                <span style="font-size:1.2rem !important;">{{ message }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', (event) => {
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+              {% elif message.tags == 'error' %}
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        });
+      </script>
+        
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+{% endblock %}
+
                 </div>
             </div>
         </div>
