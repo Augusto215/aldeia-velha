@@ -45,22 +45,25 @@
                     </form>
 
 
-              
                     <script>
                         document.getElementById('valor_doacao').addEventListener('input', function (e) {
-                            var target = e.target, position = target.selectionStart;
+                            var target = e.target;
                     
-                            // Remove tudo que não é número
-                            var value = target.value.replace(/\D/g, '');
+                            // Remove tudo que não é número e converte para um número inteiro em centavos
+                            var value = parseInt(target.value.replace(/\D/g, '')) || 0;
                     
-                            // Adiciona os pontos e vírgulas para o formato de moeda
-                            value = value.replace(/(\d)(\d{2})$/, '$1,$2');
-                            value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
+                            // Converte o valor para o formato de moeda (com dois dígitos após a vírgula)
+                            var formattedValue = (value / 100).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                                minimumFractionDigits: 2
+                            });
                     
-                            target.value = `R$ ${value}`;
+                            // Substitui o valor do input pelo valor formatado
+                            target.value = formattedValue;
                     
-                            // Mantém o cursor na posição correta
-                            target.selectionStart = target.selectionEnd = position += value.length - target.value.length;
+                            // Coloca o cursor no final do texto
+                            target.setSelectionRange(target.value.length, target.value.length);
                         });
                     </script>
 </div>
