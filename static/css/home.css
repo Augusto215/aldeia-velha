@@ -103,11 +103,33 @@ body::-webkit-scrollbar { display: none; }
     border-radius: 5px;
 }
 
+.desktop-imgs
+    {
+      display: flex;
+
+    }
+
+.mobile-slider
+{
+  display: none;
+}
 /* Media Query para dispositivos com tela menor que 600px (Celulares) */
 @media (max-width: 768px) {
     .foto {
         flex-basis: 100%; /* 1 foto por linha */
     }
+
+    .desktop-imgs
+    {
+      display: none !important;
+
+    }
+
+    .mobile-slider
+    {
+      display: flex !important;
+    }
+
 }
 
   .passeio2
@@ -207,7 +229,7 @@ body::-webkit-scrollbar { display: none; }
     align-items: center;
     justify-content: center;
     padding-top: 25px;
-    padding-bottom: 115px;
+    padding-bottom: 25px;
     margin-top:25px;
     min-height: 100vh !important;
    ;

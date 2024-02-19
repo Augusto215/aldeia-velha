@@ -126,9 +126,9 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 #    }
 #}
 
-DATABASES  = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+ DATABASES  = {
+     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+ }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
