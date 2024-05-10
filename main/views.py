@@ -39,7 +39,7 @@ def get_horarios(request):
 
 def iniciar_pagamento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
-    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+    sdk = mercadopago.SDK("TEST-205363937963095-011100-311846139257ca9051dde70e7b4f35f8-1627783278")
 
     if request.method == 'POST':
         if hasattr(request.user, 'cliente'):
@@ -115,7 +115,7 @@ def verificar_pagamento(sdk, payment_id):
 
 
 def confirmar_pagamento(request):
-    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+    sdk = mercadopago.SDK("TEST-205363937963095-011100-311846139257ca9051dde70e7b4f35f8-1627783278")
     payment_id = request.GET.get('payment_id')  # ou a chave correta enviada pelo Mercado Pago
     payment_status = verificar_pagamento(sdk, payment_id)
 
@@ -210,7 +210,7 @@ def galeria(request):
 
 
 def iniciar_doacao(request):
-    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+    sdk = mercadopago.SDK("TEST-205363937963095-011100-311846139257ca9051dde70e7b4f35f8-1627783278")
 
     if request.method == 'POST':
         valor_doacao_str = request.POST.get('valor_doacao')
