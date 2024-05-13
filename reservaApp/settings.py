@@ -119,16 +119,16 @@ WSGI_APPLICATION = 'reservaApp.wsgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'data/db.sqlite3',
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'data/db.sqlite3',
+#    }
+#}
 
-#DATABASES  = {
-#     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-# }
+DATABASES  = {
+     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+ }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
