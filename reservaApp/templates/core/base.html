@@ -6,9 +6,9 @@
   <meta charset="utf-8">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <link rel="icon" href="{%static 'img/c843eefa-f7d4-4534-852f-971f82ebfa4c-removebg-preview.ico' %}" type="image/x-icon">
+  <link rel="icon" href="{%static 'img\Reserva-PNG.ico' %}" type="image/x-icon">
 
-  <title>Reserva Pataxó da Jaqueira </title>
+  <title>Reserva Pataxó Aldeia Velha </title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -26,51 +26,36 @@
     
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{%url 'home' %}"><img style="height: 6rem !important; border-radius:50%;" src="{%static 'img\c843eefa-f7d4-4534-852f-971f82ebfa4c-removebg-preview.png' %}"></a>
+          <a class="navbar-brand" href="{%url 'home' %}"><img style="height: 7rem !important; border-radius:50%;" src="{%static 'img/reserva.png' %}"></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"><img style="width:2rem;" src="{%static 'img/menus.png' %}"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto w-100 d-flex justify-content-center mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto w-100 d-flex justify-content-center mb-2 mb-lg-0 gap-4">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{%url 'home' %}">Início</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'localizacao'%}">Localização</a>
+                <a class="nav-link active" aria-current="page" href="{%url 'historia'%}">História e Resistência
+                </a>
               </li>
+              
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'historia'%}">História</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'pataxo'%}"> A Reserva</a>
+                <a class="nav-link active" aria-current="page" href="{%url 'localizacao'%}">Localização
+                </a>
               </li>
            
+   
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'historico' %}">Aragwaksã</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'desfile'%}"> Moda Pataxó</a>
+                <a class="nav-link active" aria-current="page" href="{%url 'turismo'%}"> Turismo cultural e ecológico</a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'desfile'%}"> EcoÉtnico</a>
-              </li>
-              
- 
-              <li class="nav-item">
-                <a class="nav-link" href="{%url 'galeria'%}">Galerias</a>
-              </li>
-    
-                  <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'iniciar_doacao'%}"> Doar</a>
-              </li>
-    
+           
               
               {%if user.is_authenticated%}
           
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'reservas'%}">Minhas Reservas</a>
+                <a class="nav-link active" aria-current="page" href="{%url 'reservas'%}">Minhas reservas </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{%url 'logout'%}">Sair</a>
@@ -87,10 +72,10 @@
             </ul>
             <span class="navbar-text">
               {%if user.is_authenticated%}
-             <a href="{% url 'checkout' evento_id=1 %}"> <button style="min-width:13rem; border:none;font-weight: 600; outline:none; padding:.7rem 2rem; background:#078917 !important; border-radius:4px; color:#fff !important; font-size:1.2rem !important;">Reservar Agora</button>
+             <a href="{% url 'checkout' evento_id=1 %}"> <button style="min-width:13rem; border:none;font-weight: 600; outline:none; padding:.7rem 2rem; background:#006135 !important; border-radius:4px; color:#fff !important; font-size:1.2rem !important;">Reservar Agora</button>
              </a>
              {%else%}
-             <a href="{% url 'login' %}"> <button style="min-width:13rem; border:none;font-weight: 600; outline:none; padding:.7rem 2rem; background:#078917 !important; border-radius:4px; color:#fff !important; font-size:1.2rem !important;">Reservar Agora</button>
+             <a href="{% url 'login' %}"> <button style="min-width:13rem; border:none;font-weight: 600; outline:none; padding:.7rem 2rem; background:#006135 !important; border-radius:4px; color:#fff !important; font-size:1.2rem !important;">Reservar Agora</button>
              </a>
              {%endif%}
             </span>
@@ -104,39 +89,13 @@
 
 
         {% block  'conteudo' %}{% endblock  %}
-        <footer loading="lazy" style=" background:url('{%static 'img/pataxo-rodape-bg.webp' %}'); max-width:100%; background-size:cover; background-repeat: no-repeat; width:100%; object-fit: auto;">
-            <div class="container" style="padding-top:80px; padding-bottom:30px;">
-                <div class="row">
-                    <!-- Coluna 1: Logo -->
-                    <div class="col d-flex justify-content-center">
-                        <img src="{%static 'img\c843eefa-f7d4-4534-852f-971f82ebfa4c-removebg-preview.png' %}" style="height: 7rem; border-radius:50%;" alt="Logo">
-                    </div>
-        
-                    <!-- Coluna 2: Contato -->
-                    <div class="col">
-                        <h3>Contato</h3>
-                        <p>Telefone: (73) 99800-2236</p>
-                        <p>Email: aspectur.reservapataxo@gmail.com</p>
-                    </div>
-        
-                    <!-- Coluna 3: Endereço -->
-                    <div class="col">
-                        <h3>Endereço</h3>
-                        <p><i class="bi bi-geo-alt-fill"></i> R. do Telégrafo, 4728-5136 - Porto Seguro, BA, 45810-000</p>
-                    </div>
-
-              
-                    <!-- Coluna 4: Newsletter -->
-                    <div class="d-none">
-                        <h3>Newsletter</h3>
-                        <p>Inscreva-se para receber novidades</p>
-                        <input type="email" placeholder="Seu email">
-                        <button style="background:#013c08;color:#fff; outline: none; border:none; padding:.1rem 1rem;" type="submit">Inscrever</button>
-                    </div>
-                </div>
-                <div class="mt-4 d-flex justify-content-center">
-                  <h6> Desenvolvido por Alpha Soluções Tecnológicas</h6>
-              </div>
+        <footer loading="lazy" style=" max-width:100%; background-size:cover; background:#006135; color:#fff !important; background-repeat: no-repeat; width:100%; object-fit: auto;">
+            <div class="container pt-4 pb-4">
+                <div class="row d-flex justify-content-center w-100">
+                 <span style="font-size:1.2rem; color:#fff !important; text-align:center ">
+                  © 2025 Aldeia Velha. Todos os direitos reservados.
+                </span>
+           
     
             </div>
             

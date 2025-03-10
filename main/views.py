@@ -155,8 +155,8 @@ def historia(request):
 def pataxo(request):
     return render(request, 'core/pataxo.html')
 
-def desfile(request):
-    return render(request, 'core/desfile.html')
+def turismo(request):
+    return render(request, 'core/turismo.html')
 
 def historico(request):
     return render(request, 'core/historico.html')

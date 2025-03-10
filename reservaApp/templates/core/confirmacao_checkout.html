@@ -1,0 +1,77 @@
+<form id="frete-form" onsubmit="return false;">
+    <label for="cep">Digite seu CEP:</label>
+    <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+    <button type="button" onclick="calcularFrete()">Calcular Frete</button>
+</form>
+
+<div id="frete-opcoes" style="display: none;">
+    <p>Escolha uma opção de frete:</p>
+    <ul id="lista-fretes"></ul>
+</div>
+
+<input type="hidden" name="frete_tipo" id="frete_tipo">
+<input type="hidden" name="frete_valor" id="frete_valor">
+
+<script>
+function calcularFrete() {
+    const cep = document.getElementById("cep").value.trim();
+    if (!cep) {
+        alert("Digite um CEP válido!");
+        return;
+    }
+
+    fetch(`/calcular_frete/?cep=${cep}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na resposta da requisição");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const lista = document.getElementById("lista-fretes");
+            lista.innerHTML = "";
+
+            if (data.erro) {
+                alert(data.erro);
+                return;
+            }
+
+            let hasValidOption = false;
+            Object.keys(data).forEach(servico => {
+                const frete = data[servico];
+                if (frete.valor !== undefined) {
+                    hasValidOption = true;
+                    const item = document.createElement("li");
+                    item.innerHTML = `
+                        <label>
+                            <input type="radio" name="frete" value="${servico}" data-valor="${frete.valor}">
+                            ${frete.nome} - R$ ${frete.valor.toFixed(2)}
+                        </label>`;
+                    lista.appendChild(item);
+                } else if (frete.erro) {
+                    const item = document.createElement("li");
+                    item.textContent = `${servico.toUpperCase()}: ${frete.erro}`;
+                    lista.appendChild(item);
+                }
+            });
+
+            if (hasValidOption) {
+                document.getElementById("frete-opcoes").style.display = "block";
+            } else {
+                document.getElementById("frete-opcoes").style.display = "none";
+                alert("Nenhuma opção de frete disponível.");
+            }
+
+            document.querySelectorAll('input[name="frete"]').forEach(input => {
+                input.addEventListener("change", function() {
+                    document.getElementById("frete_tipo").value = this.value;
+                    document.getElementById("frete_valor").value = this.dataset.valor;
+                });
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao calcular frete:", error);
+            alert("Erro ao calcular frete. Tente novamente mais tarde.");
+        });
+}
+</script>

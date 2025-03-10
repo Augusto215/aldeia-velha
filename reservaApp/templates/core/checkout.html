@@ -1,28 +1,96 @@
-{%extends 'core/base.html' %}
-{%load static%}
-{%block 'conteudo'%}
+{% extends "base.html" %}
 
+{% block content %}
+<h2>Finalizar Compra</h2>
 
-<div class="container">
-<form method="post" action="{% url 'iniciar_doacao' %}" style="margin-bottom:10rem;">
+<form method="POST" action="{% url 'checkout_finalizar' %}">
     {% csrf_token %}
-    <div class="form-header">
-        <h2>Faça sua Reserva</h2>
-    </div>
-    <div class="row">
-   
-    <div class="row">
-      
-        <div class="form-group">
-            <label for="valor_doacao">Valor da Doação:</label>
+    
+    <h3>Informações de Envio</h3>
+    <label>Nome Completo:</label>
+    <input type="text" name="nome" required>
 
-            <input type="number" name="valor_doacao" id="valor_doacao" required>
+    <label>CEP:</label>
+    <input type="text" name="cep" id="cep" required>
 
-            <button type="submit">Doar</button>
+    <label>Endereço:</label>
+    <input type="text" name="endereco" id="endereco" required>
 
-        </div>
-    </div>
-    </div>
+    <label>Número:</label>
+    <input type="text" name="numero" required>
+
+    <label>Complemento:</label>
+    <input type="text" name="complemento">
+
+    <label>Bairro:</label>
+    <input type="text" name="bairro" id="bairro" required>
+
+    <label>Cidade:</label>
+    <input type="text" name="cidade" id="cidade" required>
+
+    <label>Estado:</label>
+    <input type="text" name="estado" id="estado" required>
+
+    <h3>Resumo do Pedido</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+                <td>{{ item.produto.nome }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>R$ {{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total: R$ <span id="total_compra">{{ total }}</span></strong></p>
+    
+    <h3>Frete</h3>
+    <label>Escolha o método de envio:</label>
+    <select name="metodo_frete" id="metodo_frete">
+        <option value="correios">Correios</option>
+        <option value="motoboy">Motoboy</option>
+    </select>
+    <p><strong>Frete: R$ <span id="valor_frete">0.00</span></strong></p>
+    
+    <input type="hidden" name="frete" id="frete_hidden">
+    
+    <button type="submit">Finalizar Pagamento</button>
 </form>
-</div>
-{%endblock%}
+
+<script>
+document.getElementById('cep').addEventListener('blur', function() {
+    let cep = this.value.replace(/\D/g, '');
+    if (cep.length == 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById('endereco').value = data.logradouro;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('cidade').value = data.localidade;
+                    document.getElementById('estado').value = data.uf;
+                }
+            });
+    }
+});
+
+// Simulação de cálculo de frete
+document.getElementById('metodo_frete').addEventListener('change', function() {
+    let valorFrete = this.value === "motoboy" ? 20.00 : 10.00;
+    document.getElementById('valor_frete').innerText = valorFrete.toFixed(2);
+    let totalCompra = parseFloat(document.getElementById('total_compra').innerText) + valorFrete;
+    document.getElementById('total_compra').innerText = totalCompra.toFixed(2);
+    document.getElementById('frete_hidden').value = valorFrete;
+});
+</script>
+
+{% endblock %}

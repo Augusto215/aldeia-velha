@@ -1,0 +1,126 @@
+{%extends 'core/base.html'%}
+{%load static%}
+
+{%block 'conteudo'%}
+
+
+<div class="container mb-4 d-flex flex-column">
+    <h2 class="text-center">Aldeia Velha: Cultura, História e Conexão com a Natureza
+    </h2>
+<span style="text-align:center; font-size:1.2rem">
+  A Terra Indígena Aldeia Velha foi oficialmente reconhecida como posse permanente do povo Pataxó em 2011 e se estende por mais de 2.000 hectares de natureza preservada. Esse território não é apenas um espaço físico, mas um símbolo de identidade, espiritualidade e cultura, cercado por florestas e remanescentes ambientais que reforçam o profundo elo entre o povo Pataxó e a terra.
+
+  A fundação da Aldeia Velha representou um novo começo na luta pela reafirmação dos direitos indígenas. O cacique Ipê teve um papel essencial ao reunir famílias dispersas na região de Arraial d'Ajuda, promovendo o fortalecimento da identidade cultural e a conscientização sobre os direitos indígenas. Desde então, a aldeia tornou-se um exemplo de união e resistência, onde tradição e modernidade coexistem de forma harmoniosa.
+  
+  A cultura Pataxó pulsa com a energia dos jovens e a sabedoria dos mais velhos. Os jovens lideram os “grupos de cultura”, que promovem intercâmbios entre aldeias e mantêm vivas as danças, cantos, rituais e o idioma Pataxó. A Aldeia Velha também se destaca nos Jogos Indígenas Pataxó, reforçando seu papel como um centro de tradição e orgulho cultural. O artesanato, mais do que um ofício, é uma forma de contar histórias e preservar memórias ancestrais.
+  
+  Além de sua riqueza cultural, a Reserva Pataxó Aldeia Velha oferece um turismo cultural e ecológico que permite aos visitantes mergulhar na essência do povo Pataxó. Entre as experiências disponíveis estão:
+  
+  Caminhadas ecológicas por trilhas na exuberante Mata Atlântica, conectando os visitantes à biodiversidade local.
+  Imersões culturais, onde é possível aprender sobre a história, língua, rituais e costumes Pataxó.
+  Rituais tradicionais, proporcionando momentos únicos de espiritualidade e conexão.
+  Culinária típica, com pratos que combinam ingredientes locais e tradições ancestrais.
+  Feiras de artesanato, oferecendo peças feitas à mão que contam a história e a cultura Pataxó.
+  A Aldeia Velha é mais do que um destino; é um convite para vivenciar, aprender e compartilhar a riqueza cultural e natural do povo Pataxó.
+</span>
+</div>
+<div class=" desktop-imgs justify-content-center mt-4" style="gap:.5rem;">
+    <img loading="lazy" class="color-1" style="object-fit:cover; width:25%; max-height:30rem;" src="{%static 'img/PHB_8152.JPG' %}">
+  
+    <img loading="lazy" class="color-1" style="object-fit:cover; width:25%; max-height:30rem;" src="{%static 'img/PHB_8154.JPG' %}">
+    <img loading="lazy" class="color-0 alive" style="object-fit:cover; width:25%; max-height:30rem;" src="{%static 'img/PHB_8140.JPG' %}">
+
+    <img loading="lazy" class="color-0 alive" style="object-fit:cover; width:25%; max-height:30rem;" src="{%static 'img/PHB_8164.JPG' %}">
+  
+  
+    
+  </div>
+  </div>
+  <div class="mobile-slider" id="slide-window" style="height:500px !important;object-fit:cover; ">
+    
+    <ol id="slides" start="1">
+    
+      <li loading="lazy" class="slide color-0 alive" style="object-fit:cover; background-image:url('{%static 'img/33cd31b3-0e48-4213-b176-ea1e0dcec23f.jpg' %}');"></li>
+      
+      <li loading="lazy" class="slide color-1" style="object-fit:cover; background-image:url('{%static 'img/fe4306d2-e5b7-4723-91e7-bb3a7bfcc600.jpg' %}');"></li>
+      
+      <li loading="lazy" class="slide color-0 alive" style="object-fit:cover; background-image:url('{%static 'img/7d6fe112-7652-4578-8e94-7e18248140a2.jpg' %}');"></li>
+      
+      <li loading="lazy" class="slide color-1" style="object-fit:cover; background-image:url('{%static 'img/816337ea-8c53-42da-b9ca-58300e78f895.jpg' %}');"></li>
+  
+      <li loading="lazy" class="slide color-0 alive" style="object-fit:cover; background-image:url('{%static 'img/a2f7c232-696a-4aba-89ac-498f3b8aee74.jpg' %}');"></li>
+      
+  
+     
+    
+    </ol>
+  
+    <span class="nav fa fa-chevron-left fa-3x" style="color:#fff !important" id="left"><i style="font-size:5rem !important;" class="bi bi-arrow-left-short"></i>
+    </span>
+    <span class="nav fa fa-chevron-right fa-3x" style="color:#fff !important" id="right"><i style="font-size:5rem !important;" class="bi bi-arrow-right-short"></i>
+    </span>
+    
+    <div id="credit">Photography by Trey Ratcliff<br>Slide No.<span id="count">1</span><br><span id="zoom">zoom</span></div>
+    
+  </div>
+  
+  
+  
+  <script>
+    $.global = new Object();
+    
+    $.global.item = 1;
+    $.global.total = 0;
+    
+    $(document).ready(function() 
+      {
+      
+      var WindowWidth = $(window).width();
+      var SlideCount = $('#slides li').length;
+      var SlidesWidth = SlideCount * WindowWidth;
+      
+       $.global.item = 0;
+        $.global.total = SlideCount; 
+        
+      $('.slide').css('width',WindowWidth+'px');
+      $('#slides').css('width',SlidesWidth+'px');
+    
+       $("#slides li:nth-child(1)").addClass('alive');
+        
+      $('#left').click(function() { Slide('back'); }); 
+      $('#right').click(function() { Slide('forward'); }); 
+            
+      });
+    
+    function Slide(direction)
+      {
+       
+        if (direction == 'back') { var $target = $.global.item - 1; }
+        if (direction == 'forward') { var $target = $.global.item + 1; }  
+        
+        if ($target == -1) { DoIt($.global.total-1); } 
+        else if ($target == $.global.total) { DoIt(0); }  
+        else { DoIt($target); }
+        
+        
+      }
+    
+    function DoIt(target)
+      {
+       
+        var $windowwidth = $(window).width();
+      var $margin = $windowwidth * target; 
+        var $actualtarget = target+1;
+        
+        $("#slides li:nth-child("+$actualtarget+")").addClass('alive');
+        
+        $('#slides').css('transform','translate3d(-'+$margin+'px,0px,0px)');	
+        
+        $.global.item = target; 
+        
+      $('#count').html($.global.item+1);
+        
+      }
+    
+        </script>
+{%endblock%}
