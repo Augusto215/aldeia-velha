@@ -20,7 +20,7 @@ RUN pip install -r requirements.txt
 RUN mkdir -p /app/static /app/media
 
 # Expõe a porta 8000 no container
-EXPOSE 8000
+EXPOSE 8001
 
 # Comando para rodar o servidor Django
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "reservaApp.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8001", "reservaApp.wsgi:application"]

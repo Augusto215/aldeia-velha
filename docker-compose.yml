@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: aldeia_velha
+    restart: always
+    depends_on:
+      - db
+    env_file: .env
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8001:8001"
+
+  db:
+    image: postgres:14
+    container_name: postgres_db_aldeia_velha
+    restart: always
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
