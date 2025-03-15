@@ -18,6 +18,7 @@ urlpatterns = [
         path('checkout/<int:evento_id>/success/', checkout_success, name='success'),
         path('cancel/', checkout_cancel, name='falha_pagamento'),
         path('pendent/', pendent, name='pagamento_pendente'),
+        path('projetos/', projetos, name='projetos'),
         path('galeria/', galeria, name='galeria'),
         path('iniciar_doacao/', iniciar_doacao, name='iniciar_doacao'),
         path('confirmar_doacao/', confirmar_doacao, name='confirmar_doacao'),

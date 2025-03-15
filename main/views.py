@@ -115,7 +115,7 @@ def verificar_pagamento(sdk, payment_id):
 
 
 def confirmar_pagamento(request):
-    sdk = mercadopago.SDK("APP_USR-205363937963095-011100-7c72c449b7df93fee6326030ab7b71fb-1627783278")
+    sdk = mercadopago.SDK("APP_USR-4033645478438119-021215-91a73d62a2df0ea1fec137f5317b7238-2266415170")
     payment_id = request.GET.get('payment_id')  # ou a chave correta enviada pelo Mercado Pago
     payment_status = verificar_pagamento(sdk, payment_id)
 
@@ -207,6 +207,12 @@ def galeria(request):
         'fotos': fotos
     }
     return render(request, 'core/galeria.html', context)
+
+
+def projetos(request):
+
+    return render(request, 'core/projetos.html')
+
 
 
 def iniciar_doacao(request):
