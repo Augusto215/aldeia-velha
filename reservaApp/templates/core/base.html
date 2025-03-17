@@ -100,21 +100,49 @@
 
 
         {% block  'conteudo' %}{% endblock  %}
-        <footer loading="lazy" style=" max-width:100%; background-size:cover; background:#006135; color:#fff !important; background-repeat: no-repeat; width:100%; object-fit: auto;">
-            <div class="container pt-4 pb-4">
-                <div class="row d-flex justify-content-center w-100">
-                 <span style="font-size:1.2rem; color:#fff !important; text-align:center ">
-                  © 2025 Aldeia Velha. Todos os direitos reservados.
-                </span>
-           
+        <footer loading="lazy" style=" background:#006135; max-width:100%; background-size:cover; background-repeat: no-repeat; width:100%; object-fit: auto;">
+            <div class="container" style="padding-top:30px; padding-bottom:15px;">
+                <div class="row">
+                    <!-- Coluna 1: Logo -->
+                    <div class="col d-flex justify-content-center">
+                        <img src="{%static 'img/reserva.png' %}" style="height: 7rem; border-radius:50%;" alt="Logo">
+                    </div>
+        
+                    <!-- Coluna 2: Contato -->
+                    <div class="col">
+                        <h3 style="color:#fff !important;">Contato</h3>
+                        <p style="color:#fff">Telefone: (73) 999457360</p>
+                        <p style="color:#fff">Email: antoniagonsalvespataxo@gmail.com</p>
+                    </div>
+        
+                    <!-- Coluna 3: Endereço -->
+                    <div class="col">
+                        <h3 style="color:#fff !important;">Endereço</h3>
+                        <p style="color:#fff"><i class="bi bi-geo-alt-fill"></i> BA-986 - Arraial d'Ajuda, Porto Seguro - BA, 45810-000, Brasil</p>
+
+
+
+
+                      </div>
+
+              
+                    <!-- Coluna 4: Newsletter -->
+                    <div class="d-none">
+                        <h3>Newsletter</h3>
+                        <p>Inscreva-se para receber novidades</p>
+                        <input type="email" placeholder="Seu email">
+                        <button style="background:#013c08;color:#fff; outline: none; border:none; padding:.1rem 1rem;" type="submit">Inscrever</button>
+                    </div>
+                </div>
+     
     
             </div>
             
-        </footer>
+        </footer> 
         <div class="index6">
 
           <!-- Botão flutuante -->
-          <a href="https://api.whatsapp.com/send?phone=5573998002236
+          <a href="https://api.whatsapp.com/send?phone=5573999457360
           " class="contrate-a"><button type="button" class="button-wpp"
               style="position: fixed; bottom: 20px; right: 0;margin:0 1rem; z-index: 99; display: flex; align-items: center; justify-content: center;"><svg
                 xmlns="http://www.w3.org/2000/svg" height="2.5rem"
